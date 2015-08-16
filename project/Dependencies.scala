@@ -45,7 +45,7 @@ object Dependencies {
 
   import Library._
 
-  val leaderboard = Seq(
+  val leaderboard = deps(
     akkaActor,
     akkaSlf4j,
     akkaPersistence,
@@ -65,23 +65,18 @@ object Dependencies {
     sprayTest 		  % "test",
     mockito       	% "test",
     akkaTestkit     % "test",
-    scalaTest     	% "test"
+    scalaTest     	% "test,it"
   )
 
-  val leaderboardProtocol = Seq(
-
+  val leaderboardProtocol = deps(
   )
 
-  val ranking = Seq(
-
+  val ranking = deps(
+    scalaTest     	% "test,it"
   )
 
-  val main = Seq(
-
-  )
-
-  val leaderboardE2e = Seq(
-
+  val main = deps(
+    scalaTest     	% "test,e2e"
   )
 
   private def deps(modules: ModuleID*): Seq[Setting[_]] = Seq(libraryDependencies ++= modules)

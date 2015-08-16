@@ -1,8 +1,8 @@
 import sbt._
 import Keys._
 import net.virtualvoid.sbt.graph.Plugin.graphSettings
-import BuildKeys._
 import spray.revolver.RevolverPlugin._
+import Vagrant.vagrantFile
 
 object BaseSettings {
 

@@ -4,9 +4,9 @@ import scala.language.postfixOps
 
 object Vagrant {
 
-  import BuildKeys._
   import Configs._
 
+  lazy val vagrantFile = SettingKey[File]("vagrant-file")
   private lazy val vagrant = settingKey[Vagrant]("vagrant")
 
   lazy val settings = Seq(
