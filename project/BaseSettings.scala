@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import net.virtualvoid.sbt.graph.Plugin.graphSettings
+import net.virtualvoid.sbt.graph.Plugin
 import spray.revolver.RevolverPlugin._
 import Vagrant.vagrantFile
 
@@ -29,6 +29,9 @@ object BaseSettings {
     )
   ) ++
   Revolver.settings ++
-  graphSettings
+  ResolverSettings.settings ++
+  Testing.settings ++
+  Vagrant.settings ++
+  Plugin.graphSettings
 
 }

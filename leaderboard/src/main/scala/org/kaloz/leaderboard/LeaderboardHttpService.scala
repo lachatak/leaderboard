@@ -7,12 +7,12 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.wordnik.swagger.annotations._
 import org.joda.time.DateTime
-import spray.routing.HttpService
+import org.kaloz.common.spray.RouteService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Api(value = "/leaderboard", description = "Operations about leaderboard", position = 0)
-class LeaderboardHttpService(val actorRefFactory: ActorSystem, leaderboard: ActorRef)(implicit timeout:Timeout) extends HttpService {
+class LeaderboardHttpService(val actorRefFactory: ActorSystem, leaderboard: ActorRef)(implicit timeout:Timeout) extends RouteService {
 
   val routes = readRoute ~ updateRoute ~ deleteRoute ~ addRoute ~ searchRoute ~ readRouteForNestedResource
 

@@ -1,8 +1,8 @@
-package org.kaloz.leaderboard
+package org.kaloz.common.joda
 
 import org.joda.time.DateTime
-import org.joda.time.format.{DateTimeFormatter, ISODateTimeFormat}
-import spray.json._
+import org.joda.time.format.{ISODateTimeFormat, DateTimeFormatter}
+import spray.json.{DeserializationException, JsValue, RootJsonFormat, JsString}
 
 object DateTimeJsonProtocol {
   implicit object DateJsonFormat extends RootJsonFormat[DateTime] {

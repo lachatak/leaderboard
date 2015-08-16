@@ -1,4 +1,4 @@
-package org.kaloz.leaderboard
+package org.kaloz.leaderboard.main
 
 import com.gettyimages.spray.swagger.{SwaggerHttpService => SpraySwaggerHttpService}
 import com.wordnik.swagger.model.ApiInfo
@@ -9,7 +9,7 @@ trait SwaggerHttpService {
 
   def apiTypes: Seq[scala.reflect.runtime.universe.Type]
 
-  val swaggerService = new SpraySwaggerHttpService {
+  private val swaggerService = new SpraySwaggerHttpService {
     override def apiTypes = SwaggerHttpService.this.apiTypes
 
     override def apiVersion = "2.0"

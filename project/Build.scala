@@ -3,37 +3,41 @@ import Keys._
 
 object Build extends Build {
 
-  lazy val global = BaseSettings.settings ++ ResolverSettings.settings ++ Testing.settings ++ Vagrant.settings
-  
   override lazy val settings = super.settings :+ {
     shellPrompt := { s => "[" + scala.Console.BLUE + Project.extract(s).currentProject.id + scala.Console.RESET + "] $ "}
   }
 
   lazy val root = Project("root", file("."))
-    .aggregate(main, leaderboard, leaderboardProtocol, ranking)
+    .aggregate(common, main, leaderboard, leaderboardProtocol, ranking)
     .configs(Configs.all: _*)
 
-  lazy val leaderboard = Project("leaderboard", file("leaderboard"))
-    .dependsOn(leaderboardProtocol)
+  lazy val main = Project("main", file("main"))
+    .dependsOn(common, leaderboard, leaderboardProtocol, ranking)
     .configs(Configs.all: _*)
-    .settings(global: _*)
+    .settings(BaseSettings.settings: _*)
+    .settings(Dependencies.main: _*)
+    .settings(mainClass in (Compile, run) := Some("org.kaloz.leaderboard.main.LeaderboardApp"))
+
+  lazy val leaderboard = Project("leaderboard", file("leaderboard"))
+    .dependsOn(common, leaderboardProtocol)
+    .configs(Configs.all: _*)
+    .settings(BaseSettings.settings: _*)
     .settings(Dependencies.leaderboard: _*)
-    .settings(mainClass in (Compile, run) := Some("org.kaloz.leaderboard.LeaderboardApp"))
 
   lazy val leaderboardProtocol = Project("leaderboard-protocol", file("leaderboard-protocol"))
     .configs(Configs.all: _*)
-    .settings(global: _*)
+    .settings(BaseSettings.settings: _*)
     .settings(Dependencies.leaderboardProtocol: _*)
 
-  lazy val ranking = Project("ranking", file("ranking"))
+  lazy val common = Project("common", file("common"))
     .configs(Configs.all: _*)
-    .dependsOn(leaderboardProtocol)
-    .settings(global: _*)
+    .settings(BaseSettings.settings: _*)
+    .settings(Dependencies.common: _*)
+
+  lazy val ranking = Project("ranking", file("ranking"))
+    .dependsOn(common, leaderboardProtocol)
+    .configs(Configs.all: _*)
+    .settings(BaseSettings.settings: _*)
     .settings(Dependencies.ranking: _*)
 
-  lazy val main = Project("main", file("main"))
-    .configs(Configs.all: _*)
-    .dependsOn(leaderboard, leaderboardProtocol, ranking)
-    .settings(global: _*)
-    .settings(Dependencies.main: _*)
 }

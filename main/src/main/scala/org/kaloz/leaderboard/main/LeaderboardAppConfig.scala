@@ -1,8 +1,8 @@
-package org.kaloz.leaderboard
+package org.kaloz.leaderboard.main
 
 import com.typesafe.config.ConfigFactory
 
-object LeaderboardConfig {
+object LeaderboardAppConfig {
   private val config = ConfigFactory.load()
 
   object HttpConfig {

@@ -1,7 +1,8 @@
 package org.kaloz.leaderboard
 
 import org.joda.time.DateTime
-import org.kaloz.leaderboard.DateTimeJsonProtocol._
+import org.kaloz.common.joda.DateTimeJsonProtocol
+import DateTimeJsonProtocol._
 import spray.httpx.SprayJsonSupport
 import spray.json.DefaultJsonProtocol
 
