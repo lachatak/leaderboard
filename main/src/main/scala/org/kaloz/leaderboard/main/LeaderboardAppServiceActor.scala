@@ -1,17 +1,16 @@
 package org.kaloz.leaderboard.main
 
+import akka.actor.Props
 import org.kaloz.common.spray.RouteService
-import org.kaloz.leaderboard.LeaderboardHttpService
-import spray.routing.HttpServiceActor
+import spray.routing.{HttpServiceActor, Route}
 
-import scala.reflect.runtime.universe._
+class LeaderboardAppServiceActor(override val serviceApis: List[RouteService]) extends HttpServiceActor with SwaggerHttpService {
 
-class LeaderboardAppServiceActor(services: Seq[RouteService]) extends HttpServiceActor with SwaggerHttpService {
+  val routes:Seq[Route] = swaggerRoute :: serviceApis.map(_.route)
 
-  override def actorRefFactory = context
+  def receive = runRoute(routes.reduce(_ ~ _))
+}
 
-  override def apiTypes = Seq(typeOf[LeaderboardHttpService])
-//  override def apiTypes = services.map( s => typeOf[s.type])
-
-  def receive = runRoute(services.map(_.routes).fold(swaggerRoutes)(_ ~ _))
+object LeaderboardAppServiceActor {
+  def props(routes: Seq[RouteService]) = Props(classOf[LeaderboardAppServiceActor], routes)
 }

@@ -12,9 +12,9 @@ import org.kaloz.common.spray.RouteService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Api(value = "/leaderboard", description = "Operations about leaderboard", position = 0)
-class LeaderboardHttpService(val actorRefFactory: ActorSystem, leaderboard: ActorRef)(implicit timeout:Timeout) extends RouteService {
+class LeaderboardHttpService(leaderboard: ActorRef)(implicit val actorRefFactory: ActorSystem, timeout:Timeout) extends RouteService {
 
-  val routes = readRoute ~ updateRoute ~ deleteRoute ~ addRoute ~ searchRoute ~ readRouteForNestedResource
+  val route = readRoute ~ updateRoute ~ deleteRoute ~ addRoute ~ searchRoute ~ readRouteForNestedResource
 
   @ApiOperation(value = "Find a leaderboard by ID", notes = "Returns a leaderboard on ID", httpMethod = "GET", response = classOf[Leaderboard])
   @ApiImplicitParams(Array(
@@ -102,7 +102,10 @@ class LeaderboardHttpService(val actorRefFactory: ActorSystem, leaderboard: Acto
       }
     }
   }
+}
 
+object LeaderboardHttpService {
+  def apply(leaderboard:ActorRef)(implicit actorRefFactory: ActorSystem, timeout:Timeout) = new LeaderboardHttpService(leaderboard)
 }
 
 

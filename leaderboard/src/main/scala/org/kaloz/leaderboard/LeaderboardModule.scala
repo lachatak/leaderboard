@@ -1,16 +1,15 @@
 package org.kaloz.leaderboard
 
-import akka.actor.{ActorSystem, ActorRefFactory, Props}
+import akka.actor.ActorSystem
 import akka.util.Timeout
-import com.softwaremill.macwire._
 
 trait LeaderboardModule {
 
-  def system:ActorSystem
-  def timeout:Timeout
+  implicit def system:ActorSystem
+  implicit def timeout:Timeout
 
-  private lazy val leaderboard = system.actorOf(Props(wire[LeaderboardActor]), "leaderboard")
+  private lazy val leaderboard = system.actorOf(LeaderboardActor.props(), "leaderboard")
 
-  lazy val leaderboardHttpService = wire[LeaderboardHttpService]
+  lazy val leaderboardHttpService:LeaderboardHttpService = LeaderboardHttpService(leaderboard)
 
 }

@@ -1,20 +1,18 @@
 package org.kaloz.leaderboard.main
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.ActorSystem
 import akka.util.Timeout
-import com.softwaremill.macwire._
-import org.kaloz.leaderboard.LeaderboardModule
+import org.kaloz.leaderboard.LeaderboardHttpService
 
 import scala.concurrent.duration._
 
-trait MainModule extends LeaderboardModule {
+trait MainModule {
 
   implicit val system = ActorSystem("leaderboard-main")
+  implicit val timeout: Timeout = 10 second
 
-  implicit val timeout:Timeout = 1 minute
+  private val services = Seq(leaderboardHttpService)
+  lazy val leaderboardAppServiceActor = system.actorOf(LeaderboardAppServiceActor.props(services), "leaderboard-app-service")
 
-  val services = Seq(leaderboardHttpService)
-
-  lazy val leaderboardAppServiceActor = system.actorOf(Props(wire[LeaderboardAppServiceActor]), "leaderboard-service")
-
+  def leaderboardHttpService: LeaderboardHttpService
 }

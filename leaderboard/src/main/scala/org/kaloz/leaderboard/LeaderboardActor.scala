@@ -1,6 +1,6 @@
 package org.kaloz.leaderboard
 
-import akka.actor.{Actor, ActorLogging}
+import akka.actor.{Props, Actor, ActorLogging}
 import org.joda.time.DateTime
 
 class LeaderboardActor extends Actor with ActorLogging{
@@ -11,4 +11,8 @@ class LeaderboardActor extends Actor with ActorLogging{
       log.info(s"leaderboard $id created $leaderboard!")
       sender ! leaderboard
   }
+}
+
+object LeaderboardActor {
+  def props() = Props[LeaderboardActor]
 }

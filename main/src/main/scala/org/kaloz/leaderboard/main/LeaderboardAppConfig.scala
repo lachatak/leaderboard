@@ -7,7 +7,7 @@ object LeaderboardAppConfig {
 
   object HttpConfig {
     private val httpConfig = config.getConfig("http")
-    
+
     lazy val interface = httpConfig.getString("interface")
     lazy val port = httpConfig.getInt("port")
   }
